@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Hey welcome</h2>
+    <p>Cpu Usage <span id="cpu_usage_field"></span></p>
+    <p>Ram Usage <span id="ram_usage_field"></span></p>
+
+    <script>
+        cpu_usage_field = document.getElementById("cpu_usage_field")
+        ram_usage_field = document.getElementById("ram_usage_field")
+
+
+        function update_cpu_usage() {
+            fetch("http://127.0.0.1:5000/get_cpu_usage").then(function (response) {
+                response.text().then(function (text) {
+
+                    cpu_usage_field.innerText = text
+
+                })
+            })
+        }
+
+        function update_ram_usage() {
+            fetch("http://127.0.0.1:5000/get_ram_usage").then(function (response) {
+                response.text().then(function (text) {
+
+                    ram_usage_field.innerText = text
+
+                })
+            })
+        }
+        function sleep(ms) {
+                            return new Promise(resolve => setTimeout(resolve, ms));
+                        }
+        (async () => {
+            while (true) {
+                await sleep(1000)
+                update_cpu_usage()
+                update_ram_usage()
+            }
+        })();
+
+    </script>
+</body>
+
+</html>
